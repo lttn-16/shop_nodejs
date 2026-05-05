@@ -4,7 +4,8 @@
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.1"
+    "mongoose": "^9.6.1",
+    "slugify": "^1.6.9"
   },
   "devDependencies": {
     "compression": "^1.8.1",

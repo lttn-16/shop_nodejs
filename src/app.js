@@ -29,6 +29,7 @@ app.use((err, req, res, next) => {
         message: err.message || 'Internal Server Error',
         status: 'error',
         code: statusCode,
+        stack: err.stack,
     });
 });
 
