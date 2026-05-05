@@ -1,0 +1,39 @@
+@url=http://localhost:3000/v1/api
+
+POST {{url}}/shop/signup
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+
+{
+  "name": "Shop 6",
+  "email": "shop6@example.com",
+  "password": "password123"
+}
+
+###
+POST {{url}}/shop/login
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+
+{
+  "email": "shop6@example.com",
+  "password": "password123"
+}
+
+###
+POST {{url}}/shop/logout
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc3OTUyNTA1LCJleHAiOjE3NzgxMjUzMDV9.SDfdpgNElMu55oUEBCUNrTY3IFrQW1mRaHq6OguhIqc
+x-client-id: 69f95d8959334400278c5758
+
+###
+POST {{url}}/shop/refresh-token
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc3OTU0NjM4LCJleHAiOjE3NzgxMjc0Mzh9.VwK-7bL2ZkYBqtbfXEYX1FtbeFvCZP-vo7imXbisiQI
+x-client-id: 69f95d8959334400278c5758
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc3OTU0NjM4LCJleHAiOjE3Nzg1NTk0Mzh9.v1sV_kO4TyAwOj3tfGzSKLF8ZNtQqtchjwsLMRIKbOA"
+}
