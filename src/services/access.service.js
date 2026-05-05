@@ -20,24 +20,15 @@ const ROLE_SHOP = {
 };
 
 class AccessService {
-    static handleRefreshToken = async ({ refreshToken }) => {
-        // check token đã được sử dụng chưa
-        const foundToken = await KeyTokenService.findByRefreshTokenUsed(refreshToken);
-        // nếu rồi
-        if(foundToken) {
-            // decode xem là ai
-            const { userId, email } = await verifyJWT(refreshToken, foundToken.privateKey);
-            console.log({ userId, email })
-            // xoá tất cả token trong key store
+    static handleRefreshToken = async ({ keyStore, refreshToken, user }) => {
+        const { userId, email } = user;
+        if(keyStore.refreshTokensUsed.includes(refreshToken)) {
             await KeyTokenService.deleteKeyById(userId);
             throw new ForbiddenError("Refresh token reuse detected");
         }
-        // neu chưa
-        const keyStore = await KeyTokenService.findByRefreshToken(refreshToken);
-        if (!keyStore) {
+        if(keyStore.refreshToken !== refreshToken) {
             throw new UnauthorizedError("Refresh token not found");
         }
-        const { userId, email } = await verifyJWT(refreshToken, keyStore.privateKey);
         const foundShop = await findByEmail({ email });
         if (!foundShop) {
             throw new UnauthorizedError("Shop not found");
@@ -57,7 +48,7 @@ class AccessService {
         });
 
         return {
-            user: { userId, email },
+            user,
             tokens,
         };
     }
