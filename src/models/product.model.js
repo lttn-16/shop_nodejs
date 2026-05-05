@@ -11,7 +11,6 @@ const productSchema = new Schema(
         thumbnail: { type: String, trim: true },
         description: { type: String, trim: true },
         price: { type: Number, required: true },
-        quantity: { type: Number, required: true },
         category: { type: String, trim: true },
         shop: { type: Types.ObjectId, ref: "Shop" },
         attributes: { type: Schema.Types.Mixed },

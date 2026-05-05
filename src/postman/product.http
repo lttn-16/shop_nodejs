@@ -7,8 +7,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5
 x-client-id: 69f95d8959334400278c5758
 
 {
-    "name": "Product need update",
-    "description": "This is Product need update",
+    "name": "Product 3",
+    "description": "This is Product 3",
     "price": 100,
     "quantity": 10,
     "category": "Category 3",
