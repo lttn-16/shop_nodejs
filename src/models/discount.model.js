@@ -12,7 +12,7 @@ const discountSchema = new Schema(
         discount_value: { type: Number, required: true },
         discount_start_date: { type: Date, required: true },
         discount_end_date: { type: Date, required: true },
-        usage_limit: { type: Number, default: 1 }, // Số lượng max được sử dụng
+        max_value: { type: Number, default: 1 }, // Số lượng max được sử dụng
         used_count: { type: Number, default: 0 }, // Số lượng đã được sử dụng
         used_by: { type: Array, default: [] }, // Người dùng mã giảm giá
         discount_max_per_user: { type: Number, default: 1 }, // Số lượng max mỗi người dùng được sử dụng

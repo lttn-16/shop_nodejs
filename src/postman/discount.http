@@ -1,0 +1,46 @@
+@url=http://localhost:3000/v1/api
+
+POST {{url}}/discount
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc4MDM2MDM5LCJleHAiOjE3NzgyMDg4Mzl9.0UPpUdNHbELHPh3OLUm-o8Xz2gAp8iWTb6VlJ7Ccy2Y
+x-client-id: 69f95d8959334400278c5758
+
+{
+  "code": "DISCOUNT100",
+  "description": "10% off on all products",
+  "name": "Summer Sale",
+  "type": "percentage",
+  "value": 10,
+  "status": true,
+  "discount_applies_to": "all",
+  "max_usage_per_user": 1,
+  "min_order_value": 200000,
+  "start_date": "2026-07-01 00:00:00",
+  "end_date": "2026-07-31 23:59:59",
+  "max_usage": 500000
+}
+
+###
+POST {{url}}/discount/apply
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc4MDM2MDM5LCJleHAiOjE3NzgyMDg4Mzl9.0UPpUdNHbELHPh3OLUm-o8Xz2gAp8iWTb6VlJ7Ccy2Y
+x-client-id: 69f95d8959334400278c5758
+
+{
+  "code": "DISCOUNT100",
+  "user_id": "001",
+  "products": [
+        {
+            "product_id": "69f9fd0596802b170e738504",
+            "quantity": 2,
+            "price": 100000
+        },
+        {
+            "product_id": "69f9fdad2bf50d04ac5a7227",
+            "quantity": 1,
+            "price": 50000
+        }
+    ]
+}

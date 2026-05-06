@@ -1,3 +1,7 @@
+const { Types } = require("mongoose");
+
+const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
+
 const updateNestedObjectParser = (obj) => {
     const final = {};
     Object.keys(obj).forEach((key) => {
@@ -33,6 +37,7 @@ const removeUndefinedObject = (obj) => {
 };
 
 module.exports = {
+    convertToObjectIdMongodb,
     updateNestedObjectParser,
     removeUndefinedObject,
 };
