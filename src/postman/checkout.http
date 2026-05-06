@@ -1,0 +1,30 @@
+@url=http://localhost:3000/v1/api
+
+POST {{url}}/checkout/review
+Content-Type: application/json
+x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc4MDM2MDM5LCJleHAiOjE3NzgyMDg4Mzl9.0UPpUdNHbELHPh3OLUm-o8Xz2gAp8iWTb6VlJ7Ccy2Y
+x-client-id: 69f95d8959334400278c5758
+
+{
+    "cartId": "69faf6be7d4111cab113e3e3",
+    "userId": "Jenny",
+    "orderItems": [
+        {
+            "shopId": "69f95d8959334400278c5758",
+            "shopDiscount": [
+                {
+                    "code": "DISCOUNT100"
+                }
+            ],
+            "products": [
+                {
+                    "productId": "69f9fdebdc71512036e01075"
+                },
+                {
+                    "productId": "69f9fe08d22042c976c2a784"
+                }
+            ]
+        }
+    ]
+}
