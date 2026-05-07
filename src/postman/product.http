@@ -3,12 +3,12 @@
 POST {{url}}/product
 Content-Type: application/json
 x-api-key: 6a82fc34028eed8173d04cbcc294c812ffa077d9050e0d9b1e23676bdbfa8f767cad2726051b013ecf2c04bff810dc0b8f47d326572935848306fc835391f9df
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc3OTg1NzQ1LCJleHAiOjE3NzgxNTg1NDV9.PCpUwN8JSbGxqXBHqEty-cHC33K3FX5llmg8x7hjHKQ
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWY5NWQ4OTU5MzM0NDAwMjc4YzU3NTgiLCJlbWFpbCI6InNob3A2QGV4YW1wbGUuY29tIiwiaWF0IjoxNzc4MTU4NTE0LCJleHAiOjE3NzgzMzEzMTR9.hY3tuwqtbSSRxCiM-X7xRojZXs3VcT2s6vq9oRnmnWE
 x-client-id: 69f95d8959334400278c5758
 
 {
-    "name": "Product 3",
-    "description": "This is Product 3",
+    "name": "Product 05",
+    "description": "This is Product 05",
     "price": 100,
     "quantity": 10,
     "category": "Category 3",
