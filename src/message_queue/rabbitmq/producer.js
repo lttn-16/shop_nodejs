@@ -1,6 +1,6 @@
 const amqplib = require("amqplib")
 
-const message = "test message"
+const message = "Hello message"
 const runProducer = async () => {
     try {
         const connection = await amqplib.connect("amqp://localhost");
@@ -11,7 +11,11 @@ const runProducer = async () => {
         })
         // send message
         channel.sendToQueue(queueName, Buffer.from(message))
-        console.log("message::", message)
+        console.log("message sent::", message)
+        setTimeout(() => {
+            connection.close()
+            process.exit(0)
+        }, 500)
     } catch(e) {
         console.error(e)
     }
