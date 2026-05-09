@@ -1,4 +1,9 @@
 const { Types } = require("mongoose");
+const crypto = require('crypto');
+
+const createRandomString = (size = 20) => {
+    return crypto.randomBytes(size).toString('hex');
+};
 
 const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
@@ -40,4 +45,5 @@ module.exports = {
     convertToObjectIdMongodb,
     updateNestedObjectParser,
     removeUndefinedObject,
+    createRandomString,
 };
