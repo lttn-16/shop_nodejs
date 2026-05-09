@@ -1,22 +1,45 @@
 const cloudinary = require("../configs/cloudinary.config");
-const { createRandomString } = require("../utils");
-const { s3, PutObjectCommand } = require('../configs/s3.config')
+const { createRandomString, getClouldfrontUrl } = require("../utils");
+const {
+    s3,
+    PutObjectCommand,
+    GetObjectCommand,
+} = require("../configs/s3.config");
+// const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { getSignedUrl } = require("@aws-sdk/cloudfront-signer");
 
 class UploadService {
     // upload file use s3
     static async uploadImageToS3({ file }) {
         try {
+            const imageName = createRandomString(5);
             const command = new PutObjectCommand({
                 Bucket: process.env.AWS_BUCKET_NAME,
-                Key: createRandomString(5),
+                Key: imageName,
                 Body: file.buffer,
-                ContentType: 'image/jpeg'
-            })
-            const result = await s3.send(command)
-            return result
+                ContentType: "image/jpeg",
+            });
+            await s3.send(command);
+            /* 
+                // public image url s3
+                const signedUrl = new GetObjectCommand({
+                    Bucket: process.env.AWS_BUCKET_NAME,
+                    Key: imageName,
+                });
+                const url = await getSignedUrl(s3, signedUrl, { expiresIn: 3600 }); 
+            */
+            // use cloudfront url mã hoá
+            const url = getSignedUrl({
+                url: getClouldfrontUrl(imageName),
+                keyPairId: process.env.AWS_CLOUD_FRONT_PUBLIC_KEY,
+                dateLessThan: new Date(Date.now() + 60 * 1000), // hết hạn sau 60 giây
+                privateKey: process.env.AWS_CLOUD_FRONT_PRIVATE_KEY,
+            });
+
+            return url;
         } catch (e) {
             console.error("uploadImageFromLocalS3 Error::", e);
-            throw e
+            throw e;
         }
     }
 

@@ -37,3 +37,5 @@ Thumbs.db
 # Build output (Nếu bạn dùng TypeScript hoặc Build tool)
 dist/
 build/
+
+src/keys/

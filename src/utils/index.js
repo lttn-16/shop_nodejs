@@ -5,6 +5,10 @@ const createRandomString = (size = 20) => {
     return crypto.randomBytes(size).toString('hex');
 };
 
+const getClouldfrontUrl = (name) => {
+    return `https://${process.env.AWS_CLOUD_FRONT_URL}/${name}`
+}
+
 const convertToObjectIdMongodb = (id) => new Types.ObjectId(id);
 
 const updateNestedObjectParser = (obj) => {
@@ -46,4 +50,5 @@ module.exports = {
     updateNestedObjectParser,
     removeUndefinedObject,
     createRandomString,
+    getClouldfrontUrl,
 };
