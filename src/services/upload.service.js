@@ -1,7 +1,25 @@
 const cloudinary = require("../configs/cloudinary.config");
 const { createRandomString } = require("../utils");
+const { s3, PutObjectCommand } = require('../configs/s3.config')
 
 class UploadService {
+    // upload file use s3
+    static async uploadImageToS3({ file }) {
+        try {
+            const command = new PutObjectCommand({
+                Bucket: process.env.AWS_BUCKET_NAME,
+                Key: createRandomString(5),
+                Body: file.buffer,
+                ContentType: 'image/jpeg'
+            })
+            const result = await s3.send(command)
+            return result
+        } catch (e) {
+            console.error("uploadImageFromLocalS3 Error::", e);
+            throw e
+        }
+    }
+
     static async uploadImageFromUrl() {
         try {
             const url =

@@ -10,7 +10,7 @@ class UploadController {
         }).send(res);
     };
 
-    uploadProduct = async (req, res, next) => {
+    uploadImage = async (req, res, next) => {
         const { file } = req
         if(!file){
             throw new BadRequestError("file is not valid")
@@ -32,6 +32,19 @@ class UploadController {
             message: "Upload files successfully",
             metadata: await UploadService.uploadImageFromLocalFiles({
                 files
+            }),
+        }).send(res);
+    };
+
+    uploadToS3 = async (req, res, next) => {
+        const { file } = req
+        if(!file){
+            throw new BadRequestError("file is not valid")
+        }
+        return new SuccessResponse({
+            message: "Upload product successfully",
+            metadata: await UploadService.uploadImageToS3({
+                file
             }),
         }).send(res);
     };
