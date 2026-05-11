@@ -9,14 +9,14 @@ router.use(authentication);
 
 // admin
 router.get(
-    "/view-any",
+    "/viewAny",
     grantAccess("readAny", "profile"),
     asyncHandler(profileController.profiles),
 );
 
 // shop
 router.get(
-    "/view-own",
+    "/viewOwn",
     grantAccess("readOwn", "profile"),
     asyncHandler(profileController.profile),
 );

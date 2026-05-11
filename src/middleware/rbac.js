@@ -28,6 +28,12 @@ const ac = require("./role.middleware");
 const grantAccess = (action, resource) => {
     return (req, res, next) => {
         try {
+            /* 
+                1. tạo resource và role data
+                2. viết api getRoleList trả về đúng cấu trúc như { role: 'admin', resource: 'profile', action: 'read:any', attributes: '*, !views' },
+                3. tại đây, lấy data roleList và kiểm tra quyền
+                ac.setGrants(await getRoleList())
+            */
             // Giả sử req.user.role đã được gán từ middleware authentication trước đó
             const userRole = req.query.role;
 
