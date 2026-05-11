@@ -45,10 +45,19 @@ const removeUndefinedObject = (obj) => {
     return obj;
 };
 
+const replacePlaceholder = (template, params) => {
+    Object.keys(params).forEach( k => {
+        const placeholder = `{{${k}}}` // {{verifykey}}
+        template = template.replace( new RegExp(placeholder, 'g'), params[k] )
+    })
+    return template
+}
+
 module.exports = {
     convertToObjectIdMongodb,
     updateNestedObjectParser,
     removeUndefinedObject,
     createRandomString,
     getClouldfrontUrl,
+    replacePlaceholder,
 };
