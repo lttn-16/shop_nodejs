@@ -6,12 +6,18 @@ const helmet = require("helmet");
 const compression = require("compression");
 const { v4: uuidv4 } = require("uuid");
 const logger = require("./loggers/winston.log");
+const initRedis = require("../src/configs/redis.config")
+initRedis.initRedis().catch((err) => {
+    console.error("Redis init failed:", err);
+});
 
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
 
 // log midleware
 app.use((req, res, next) => {

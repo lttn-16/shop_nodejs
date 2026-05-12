@@ -1,25 +1,14 @@
-const redis = require("redis");
 const {
     reservationInventory,
 } = require("../models/repositories/inventory.repo");
-const redisClient = redis.createClient();
 
-// Lắng nghe lỗi để tránh crash app
-redisClient.on('error', (err) => console.log('Redis Client Error', err));
-
-// Hàm kết nối (Nên được gọi khi khởi động Server)
-const connectRedis = async () => {
-    if (!redisClient.isOpen) {
-        await redisClient.connect();
-        console.log("Connected to Redis successfully");
-    }
-};
+const { getRedis } = require("../configs/redis.config")
 
 const acquireLock = async (productId, cartId, quantity) => {
+    const redisClient = getRedis().instanceConnect;
     const key = `lock_${productId}`;
     const retryTimes = 10; // Thử lại tối đa 10 lần
     const expireTime = 3000; // Khóa có hiệu lực trong 3 giây
-    await connectRedis();
     for (let i = 0; i < retryTimes; i++) {
         // Tạo một giá trị duy nhất để đảm bảo chỉ người giữ khóa mới có quyền giải phóng nó
         const result = await redisClient.set(key, 'lock', {
@@ -51,6 +40,7 @@ const acquireLock = async (productId, cartId, quantity) => {
 
 const releaseLock = async (keyLock) => {
     if (!keyLock) return;
+    const redisClient = getRedis().instanceConnect;
     // xóa key trong Redis
     return await redisClient.del(keyLock);
 };

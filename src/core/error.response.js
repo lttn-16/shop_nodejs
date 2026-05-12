@@ -4,6 +4,7 @@ const StatusCodes = {
     BAD_REQUEST: 400,
     UNAUTHORIZED: 401,
     NOT_FOUND: 404,
+    INTERNAL_SERVER: 500,
 }
 
 const ErrorMessages = {
@@ -12,6 +13,7 @@ const ErrorMessages = {
     BAD_REQUEST: "Bad request error",
     UNAUTHORIZED: "Unauthorized error",
     NOT_FOUND: "Not found error",
+    INTERNAL_SERVER: "Internal server error"
 }
 
 class ErrorResponse extends Error {
@@ -52,10 +54,18 @@ class NotFoundError extends ErrorResponse {
     }
 }
 
+class RedisError extends ErrorResponse {
+    constructor(message = ErrorMessages.INTERNAL_SERVER, statusCode = StatusCodes.INTERNAL_SERVER) {
+        super(message, statusCode);
+    }
+}
+
+
 module.exports = {
     ConflictRequestError,
     BadRequestError,
     ForbiddenError,
     UnauthorizedError,
     NotFoundError,
+    RedisError,
 };
