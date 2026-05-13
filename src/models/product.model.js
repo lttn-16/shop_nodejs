@@ -6,25 +6,54 @@ const COLLECTION_NAME = "Products";
 
 const productSchema = new Schema(
     {
-        name: { type: String, trim: true, required: true },
-        slug: { type: String },
-        thumbnail: { type: String, trim: true },
-        description: { type: String, trim: true },
-        price: { type: Number, required: true },
-        category: { type: String, trim: true },
-        shop: { type: Types.ObjectId, ref: "Shop" },
-        attributes: { type: Schema.Types.Mixed },
-        ratingAverage: {
+        product_name: { type: String, required: true }, // quan jean cao cap
+        product_thumb: { type: String, required: true },
+        product_description: String, //
+        product_slug: String, // quan-jean-cao-cap-01
+        product_price: { type: Number, required: true },
+        product_quantity: { type: Number, required: true },
+        // product_type: {
+        //     type: String,
+        //     required: true,
+        //     enum: ["Electronics", "Clothing", "Furniture"],
+        // },
+        product_shop: { type: Schema.Types.ObjectId, ref: "Shop" },
+        product_attributes: { type: Schema.Types.Mixed, required: true },
+        // more
+        product_ratingsAverage: {
             type: Number,
             default: 4.5,
-            min: [1, "Rating must be at least 1"],
-            max: [5, "Rating must be at most 5"],
-            set: (val) => Math.round(val * 10) / 10, // Round to 1 decimal place
+            min: [1, "Rating must be above 1.0"],
+            max: [5, "Rating must be above 5.0"],
+            // 4.345666 => 4.3
+            set: (val) => Math.round(val * 10) / 10,
+        },
+        product_variations: { type: Array, default: [] },
+        /*
+            tier_variation: [
+                {
+                    images: [],
+                    name: 'color',
+                    options: ['red', 'green'],
+                },
+                {
+                    images: [],
+                    name: 'size',
+                    options: ['S', 'M'],
+                }
+            ]
+        */
+        isDraft: { type: Boolean, default: true, index: true, select: false },
+        isPublished: {
+            type: Boolean,
+            default: false,
+            index: true,
+            select: false,
         },
     },
     {
-        timestamps: true,
         collection: COLLECTION_NAME,
+        timestamps: true,
     },
 );
 
