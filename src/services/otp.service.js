@@ -18,6 +18,25 @@ const newOtp = async ({
     return newToken
 }
 
+const checkEmailToken = async ({
+    token
+}) => {
+    // 1. Kiểm tra token có tồn tại trong model OTP hay không
+    const foundToken = await OTP.findOne({
+        otp_token: token
+    })
+
+    // 2. Nếu không tìm thấy, ném ra lỗi
+    if(!foundToken) throw new Error('token not found')
+
+    // 3. Xóa token khỏi model sau khi đã tìm thấy (để tránh sử dụng lại)
+    OTP.deleteOne({ otp_token: token }).then()
+
+    // 4. Trả về thông tin token đã tìm được
+    return foundToken;
+}
+
 module.exports = {
-    newOtp
+    newOtp,
+    checkEmailToken,
 }

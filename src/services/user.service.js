@@ -15,7 +15,6 @@ class UserService {
         }
 
         // 3. send token via email user
-        // Gọi hàm tổng đã viết ở Screenshot trước để tạo OTP và gửi mail
         const result = await sendEmailToken({ email });
 
         return {
