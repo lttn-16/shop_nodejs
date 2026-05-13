@@ -6,10 +6,19 @@ const helmet = require("helmet");
 const compression = require("compression");
 const { v4: uuidv4 } = require("uuid");
 const logger = require("./loggers/winston.log");
-const initRedis = require("../src/configs/redis.config")
-initRedis.initRedis().catch((err) => {
-    console.error("Redis init failed:", err);
-});
+// const initRedis = require("../src/configs/redis.config")
+// initRedis.initRedis().catch((err) => {
+//     console.error("Redis init failed:", err);
+// });
+const ioRedis = require('./configs/ioredis.config')
+ioRedis.init({
+    IORERIS_IS_ENABLED: true
+})
+
+const elasticSearch = require('./configs/elasticsearch.config')
+elasticSearch.init({
+    ELASTICSEARCH_IS_ENABLED: true
+})
 
 app.use(morgan("dev"));
 app.use(helmet());
