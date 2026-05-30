@@ -29,7 +29,31 @@ const reservationInventory = async ({ product_id, quantity, cart_id }) => {
     return await inventoryModel.updateOne(query, updateSet, options)
 }
 
+const rollbackInventory = async ({ product_id, quantity, cart_id }) => {
+    const query = {
+        product_id: convertToObjectIdMongodb(product_id)
+    }
+    const updateSet = {
+        $inc: {
+            stock: quantity 
+        },
+        $pull: {
+            reservations: {
+                cart_id: cart_id, 
+                quantity: quantity
+            }
+        }
+    }
+
+    const options = {
+        new: true
+    }
+
+    return await inventoryModel.updateOne(query, updateSet, options)
+}
+
 module.exports = {
     insertInventory,
     reservationInventory,
+    rollbackInventory,
 }

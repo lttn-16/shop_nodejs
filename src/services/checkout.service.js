@@ -2,8 +2,11 @@ const { getCartById } = require("../models/repositories/cart.repo");
 const { NotFoundError, BadRequestError } = require("../core/error.response");
 const { checkProductByServer } = require("../models/repositories/product.repo");
 const { applyDiscountCode } = require("../services/discount.service");
-const { acquireLock, releaseLock } = require("../services/redis.service")
-const orderModel = require("../models/order.model")
+const { acquireLock, releaseLock } = require("../services/redis.service");
+const orderModel = require("../models/order.model");
+const {
+    rollbackInventory,
+} = require("../models/repositories/inventory.repo");
 
 class CheckoutService {
     static async checkoutReview({ cartId, userId, orderItems }) {
@@ -63,26 +66,49 @@ class CheckoutService {
         };
     }
 
-    static async orderByUser({ orderItems, cartId, userId, userAddress, userPayment }) {
+    static async orderByUser({
+        orderItems,
+        cartId,
+        userId,
+        userAddress,
+        userPayment,
+    }) {
         const { orderItemsNew, checkoutOrder } = await this.checkoutReview({
             orderItems,
             cartId,
             userId,
         });
-        const products = orderItemsNew.flatMap(el => el.products)
-        console.log("products [1]", products)
-        const acquireProduct = [] 
-        for(const item of products){
-            const { productId, quantity } = item
-            const keyLock = await acquireLock(productId, cartId, quantity)
-            acquireProduct.push(keyLock ? true : false)
-            if(keyLock){
-                await releaseLock(keyLock)
+        const products = orderItemsNew.flatMap((el) => el.products);
+        const lockedProducts = []; // Lưu danh sách các sản phẩm ĐÃ GIỮ KHO THÀNH CÔNG
+        let isAllSuccess = true; // Biến cờ check trạng thái
+
+        for (const item of products) {
+            const { productId, quantity } = item;
+            const lockObject = await acquireLock(productId, cartId, quantity);
+            if (lockObject) {
+                // Lưu lại thông tin để lỡ có lỗi thì còn biết đường mà hoàn tác (rollback)
+                lockedProducts.push(item);
+
+                // Giải phóng khóa Redis ngay lập tức để người khác dùng
+                await releaseLock(lockObject.key, lockObject.value);
+            } else {
+                // Chỉ cần 1 sản phẩm thất bại, đánh dấu fail và thoát khỏi vòng lặp ngay lập tức
+                isAllSuccess = false;
+                break;
             }
         }
         // check neu có 1 sản phẩm hết hàng trong kho
-        if(acquireProduct.includes(false)){
-            throw new BadRequestError("Some product out of stock")
+        if (!isAllSuccess) {
+            if (lockedProducts.length > 0) {
+                for (const rollbackItem of lockedProducts) {
+                    await rollbackInventory({
+                        product_id: rollbackItem.productId,
+                        quantity: rollbackItem.quantity,
+                        cart_id: cartId,
+                    });
+                }
+            }
+            throw new BadRequestError("Some product out of stock");
         }
 
         const newOrder = await orderModel.create({
@@ -90,10 +116,10 @@ class CheckoutService {
             order_checkout: checkoutOrder,
             order_shipping: userAddress,
             order_payment: userPayment,
-            order_products: orderItemsNew
-        })
+            order_products: orderItemsNew,
+        });
 
-        return newOrder
+        return newOrder;
     }
 }
 
